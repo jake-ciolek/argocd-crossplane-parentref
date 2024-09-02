@@ -1,0 +1,35 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: xdatabase-nop-composition
+spec:
+  compositeTypeRef:
+    apiVersion: custom-api.example.org/v1alpha1
+    kind: xDatabase
+  resources:
+    - name: nop-database
+      base:
+        apiVersion: nop.crossplane.io/v1alpha1
+        kind: NopResource
+        spec:
+          forProvider:
+            conditionAfter:
+              - time: 10s
+                conditionType: Ready
+                conditionStatus: "True"
+      patches:
+        - fromFieldPath: "spec.region"
+          toFieldPath: "spec.forProvider.fields.region"
+        - fromFieldPath: "metadata.name"
+          toFieldPath: "metadata.annotations['argocd.argoproj.io/ownerName']"
+          type: ToCompositeFieldPath
+        - fromFieldPath: "metadata.namespace"
+          toFieldPath: "metadata.annotations['argocd.argoproj.io/ownerNamespace']"
+          type: ToCompositeFieldPath
+        - fromFieldPath: "apiVersion"
+          toFieldPath: "metadata.annotations['argocd.argoproj.io/ownerApiVersion']"
+          type: ToCompositeFieldPath
+        - fromFieldPath: "kind"
+          toFieldPath: "metadata.annotations['argocd.argoproj.io/ownerKind']"
+          type: ToCompositeFieldPath
+
