@@ -1,6 +1,6 @@
 apiVersion: custom-api.example.org/v1alpha1
 kind: Database
 metadata:
-  name: my-claimed-database
+  name: my-claimed-database-2
 spec:
   region: "US"
