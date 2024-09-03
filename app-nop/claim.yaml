@@ -2,5 +2,6 @@ apiVersion: custom-api.example.org/v1alpha1
 kind: Database
 metadata:
   name: my-claimed-database-2
+  namespace: argo-parentref
 spec:
   region: "US"
